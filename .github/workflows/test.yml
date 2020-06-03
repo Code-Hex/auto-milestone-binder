@@ -1,0 +1,12 @@
+name: "Test Milestone Binder"
+on: [issues, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        uses: ./
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"

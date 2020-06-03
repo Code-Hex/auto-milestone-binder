@@ -1,0 +1,13 @@
+name: 'Auto Milestone Binder'
+description: 'An action for binding milestone to some PR or some issues'
+author: 'Code-Hex'
+branding:
+  icon: git-branch
+  color: blue
+inputs:
+  github-token:
+    description: 'Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

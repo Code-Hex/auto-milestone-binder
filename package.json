@@ -1,0 +1,22 @@
+{
+  "name": "auto-milestone-binder",
+  "version": "1.0.0",
+  "description": "An action for binding milestone to some PR or some issues",
+  "main": "lib/main.js",
+  "author": "Code-Hex",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^2.2.0",
+    "compare-versions": "^3.6.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "test": "jest"
+  }
+}
