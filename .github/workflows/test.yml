@@ -1,5 +1,9 @@
 name: "Test Milestone Binder"
-on: [issues, pull_request]
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
 
 jobs:
   test:
