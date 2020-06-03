@@ -3,9 +3,9 @@ import * as github from '@actions/github';
 import compareVersions from 'compare-versions';
 
 async function run() {
-  const {action, repo, payload, issue} = github.context;
+  const {repo, payload, issue} = github.context;
 
-  if (action !== 'opened') {
+  if (payload.action !== 'opened') {
     console.log('No issue or PR was opened, skipping');
     return;
   }
