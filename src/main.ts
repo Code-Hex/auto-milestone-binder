@@ -3,12 +3,8 @@ import * as github from '@actions/github';
 import compareVersions from 'compare-versions';
 
 async function run() {
-  const {eventName, action, repo, payload, issue} = github.context;
+  const {action, repo, payload, issue} = github.context;
 
-  if (eventName !== 'milestone') {
-    console.log(`The event name was '${eventName}'`);
-    return;
-  }
   if (action !== 'opened') {
     console.log('No issue or PR was opened, skipping');
     return;
