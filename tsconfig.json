@@ -1,6 +1,11 @@
 {
     "compilerOptions": {
-      "types": ["node", "jest"],
+      "types": [
+        "node"
+      ],
+      "typeRoots": [
+        "./node_modules/@types"
+      ],
       /* Basic Options */
       // "incremental": true,                   /* Enable incremental compilation */
       "target": "es6",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
@@ -60,6 +65,6 @@
       // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
       // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     },
-    "exclude": ["node_modules", "**/*.test.ts"]
+    "exclude": ["tests/**/*.test.ts"]
   }
   
