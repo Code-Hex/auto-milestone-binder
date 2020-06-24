@@ -31,6 +31,20 @@ export const existsMilestone = (payload: Payload): boolean => {
   return false;
 };
 
+interface Milestone {
+  title: string
+  number: number
+}
+
+export const pickSmallestVersion = (milestones: {data: Milestone[]}): Milestone => {
+  const sortedMilestones = milestones.data
+    .filter((v) => compareVersions.validate(v.title))
+    .sort((a, b) => {
+      return compareVersions(a.title, b.title);
+    });
+  return sortedMilestones[0];
+}
+
 async function run() {
   const {repo, payload, issue} = github.context;
 
@@ -69,11 +83,7 @@ async function run() {
     return;
   }
 
-  const sortedMilestones = milestones.data.sort((a, b) => {
-    return compareVersions(a.title, b.title);
-  });
-
-  const smallestVersion = sortedMilestones[0];
+  const smallestVersion = pickSmallestVersion(milestones);
 
   await client.issues.update({
     ...repo,
