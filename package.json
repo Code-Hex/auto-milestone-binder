@@ -6,8 +6,12 @@
   "author": "Code-Hex",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/mocha": "^7.0.2",
+    "jest": "^26.1.0",
     "prettier": "^2.0.5",
-    "typescript": "^3.9.3"
+    "ts-jest": "26.1.1",
+    "typescript": "3.9.5"
   },
   "dependencies": {
     "@actions/core": "^1.2.4",

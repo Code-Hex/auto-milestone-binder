@@ -1,6 +1,35 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 import compareVersions from 'compare-versions';
+import {WebhookPayload} from '@actions/github/lib/interfaces';
+
+interface Payload extends WebhookPayload {
+  // eslint-disable-next-line camelcase
+  pull_request?: {
+    [key: string]: any;
+    number: number;
+    html_url?: string;
+    body?: string;
+    milestone?: any;
+  };
+  issue?: {
+    [key: string]: any;
+    number: number;
+    html_url?: string;
+    body?: string;
+    milestone?: any;
+  };
+}
+
+export const existsMilestone = (payload: Payload): boolean => {
+  if (payload.issue?.milestone) {
+    return true;
+  }
+  if (payload.pull_request?.milestone) {
+    return true;
+  }
+  return false;
+};
 
 async function run() {
   const {repo, payload, issue} = github.context;
@@ -17,6 +46,11 @@ async function run() {
     console.log(
       'The event that triggered this action was not a pull request or issue, skipping.'
     );
+    return;
+  }
+
+  if (existsMilestone(payload as Payload)) {
+    console.log('Milestone already exist, skipping.');
     return;
   }
 
