@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: Code-Hex/auto-milestone-binder@v1.0.0
-    with:
+      with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
