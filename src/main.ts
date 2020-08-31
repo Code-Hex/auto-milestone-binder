@@ -101,6 +101,8 @@ async function run() {
   }
 
   const loose = core.getInput('loose', {required: false})
+  console.log(`loose "${loose}"`)
+  console.log({loose})
   const smallestVersion = pickSmallestVersion(milestones, !!Number(loose));
 
   await client.issues.update({
