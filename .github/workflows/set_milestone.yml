@@ -4,11 +4,11 @@ on:
     types: [opened]
 
 jobs:
-  test:
+  set-milestone:
     runs-on: ubuntu-latest
     name: Set closest minestone if not set
     steps:
-    - uses: ku/auto-milestone-binder@v1.1.9
+    - uses: ku/auto-milestone-binder@v1.1.10
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         loose: '1'
