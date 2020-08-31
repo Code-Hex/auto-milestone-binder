@@ -8,6 +8,10 @@ inputs:
   github-token:
     description: 'Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
     required: true
+  loose:
+    description: 'Find any semver string in the title of milestone. Default is false.'
+    required: false
+    default: '0'
 runs:
   using: 'docker'
   image: 'Dockerfile'
