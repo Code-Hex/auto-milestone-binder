@@ -104,6 +104,7 @@ async function run() {
   const smallestVersion = pickSmallestVersion(milestones, !!Number(loose));
   if (smallestVersion === undefined) {
     console.log("failed to find valid milestone.")
+    return
   }
 
   await client.issues.update({

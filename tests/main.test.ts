@@ -39,7 +39,11 @@ describe('pickSmallestVersion strict', () => {
     }],
   ])("expected '%p', argument: %o", (want, arg) => {
     const got = pickSmallestVersion(arg, false)
-    expect(got.number).toBe(want)
+    if (got === undefined) {
+      fail('it should not be undefined');
+    } else {
+      expect(got.number).toBe(want)
+    }
   })
 })
 
@@ -54,6 +58,10 @@ describe('pickSmallestVersion loose', () => {
     }],
   ])("expected '%p', argument: %o", (want, arg) => {
     const got = pickSmallestVersion(arg, true)
-    expect(got.number).toBe(want)
+    if (got === undefined) {
+      fail('it should not be undefined');
+    } else {
+      expect(got.number).toBe(want)
+    }
   })
 })
