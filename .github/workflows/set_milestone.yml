@@ -1,7 +1,5 @@
 
 on:
-  issues:
-    types: [opened]
   pull_request:
     types: [opened]
 
@@ -9,7 +7,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: ku/auto-milestone-binder@v1.1.2
+    - uses: ku/auto-milestone-binder@v1.1.3
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         loose: '1'
