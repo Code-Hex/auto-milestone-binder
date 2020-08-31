@@ -100,7 +100,7 @@ async function run() {
     return;
   }
 
-  const loose = core.getInput('loose', {required: false})
+  const loose = core.getInput('loose')
   console.log(`loose "${loose}"`)
   console.log({loose})
   const smallestVersion = pickSmallestVersion(milestones, !!Number(loose));
@@ -114,5 +114,6 @@ async function run() {
 }
 
 run().catch(err => {
-  core.setFailed(err.message);
+  const message = `${err.message} loose: "${ core.getInput('loose')  }" `
+  core.setFailed(message);
 });
