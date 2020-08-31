@@ -36,7 +36,7 @@ interface Milestone {
   number: number
 }
 
-export const pickSmallestVersion = (milestones: {data: Milestone[]}, loose: boolean): Milestone | undefined => {
+export const pickSmallestVersion = (milestones: {data: Milestone[]}, loose: boolean): Milestone => {
   const versionFromTitle = (title: string) => {
     const m = title.match(/\bv\d+\.\d+\.\d+/);
     if (m !== null) {
@@ -50,13 +50,13 @@ export const pickSmallestVersion = (milestones: {data: Milestone[]}, loose: bool
     return milestones.data
       .sort((a, b) => {
         return compareVersions(versionFromTitle(a.title), versionFromTitle(b.title));
-      }).shift()
+      })[0]
   } else {
     return milestones.data
       .filter((v) => compareVersions.validate(v.title))
       .sort((a, b) => {
         return compareVersions(a.title, b.title);
-      }).shift()
+      })[0]
   }
 }
 
@@ -102,9 +102,6 @@ async function run() {
   console.log(`loose "${loose}"`)
   console.log({loose})
   const smallestVersion = pickSmallestVersion(milestones, !!Number(loose));
-  if (smallestVersion === undefined) {
-    throw new Error("failed to find valid milestone.")
-  }
 
   await client.issues.update({
     ...repo,
