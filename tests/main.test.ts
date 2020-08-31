@@ -19,7 +19,7 @@ const makeMilestone = (title: string, number: number): {title:string,number:numb
   }
 }
 
-describe('pickSmallestVersion', () => {
+describe('pickSmallestVersion strict', () => {
   test.each([
     [1, {
       data: [
@@ -38,7 +38,22 @@ describe('pickSmallestVersion', () => {
       ]
     }],
   ])("expected '%p', argument: %o", (want, arg) => {
-    const got = pickSmallestVersion(arg)
+    const got = pickSmallestVersion(arg, false)
+    expect(got.number).toBe(want)
+  })
+})
+
+describe('pickSmallestVersion loose', () => {
+  test.each([
+    [1, {
+      data: [
+        makeMilestone('v1.1.0(alpine)', 2),
+        makeMilestone('v1.0.0(bigbird)', 1),
+        makeMilestone('v1.2.0(coconut)', 3),
+      ]
+    }],
+  ])("expected '%p', argument: %o", (want, arg) => {
+    const got = pickSmallestVersion(arg, true)
     expect(got.number).toBe(want)
   })
 })

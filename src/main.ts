@@ -36,12 +36,29 @@ interface Milestone {
   number: number
 }
 
-export const pickSmallestVersion = (milestones: {data: Milestone[]}): Milestone => {
-  const sortedMilestones = milestones.data
-    .filter((v) => compareVersions.validate(v.title))
-    .sort((a, b) => {
-      return compareVersions(a.title, b.title);
-    });
+export const pickSmallestVersion = (milestones: {data: Milestone[]}, loose: boolean): Milestone => {
+  const versionFromTitle = (title: string) => {
+    const m = title.match(/\bv\d+\.\d+\.\d+/);
+    if (m !== null) {
+      return m[0];
+    } else {
+      return title;
+    }
+  };
+
+  let sortedMilestones: Milestone[]
+  if (loose) {
+    sortedMilestones = milestones.data
+      .sort((a, b) => {
+        return compareVersions(versionFromTitle(a.title), versionFromTitle(b.title));
+      })
+  } else {
+    sortedMilestones = milestones.data
+      .filter((v) => compareVersions.validate(v.title))
+      .sort((a, b) => {
+        return compareVersions(a.title, b.title);
+      })
+  }
   return sortedMilestones[0];
 }
 
@@ -83,7 +100,8 @@ async function run() {
     return;
   }
 
-  const smallestVersion = pickSmallestVersion(milestones);
+  const loose = core.getInput('loose', {required: false})
+  const smallestVersion = pickSmallestVersion(milestones, !!Number(loose));
 
   await client.issues.update({
     ...repo,

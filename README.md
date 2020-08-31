@@ -3,6 +3,7 @@
 ![Test Milestone Binder](https://github.com/Code-Hex/auto-milestone-binder/workflows/Test%20Milestone%20Binder/badge.svg)
 
 An action for binding milestone to some PR or some issues.
+When a pull request is opned without a milestone, this action finds a milestone which has closest adte and set it to the pull request.
 
 You can see the example: https://github.com/Code-Hex/auto-milestone-binder/issues/7
 
