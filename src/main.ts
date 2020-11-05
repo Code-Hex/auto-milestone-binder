@@ -36,22 +36,24 @@ interface Milestone {
   number: number
 }
 
-export const pickSmallestVersion = (milestones: {data: Milestone[]}): Milestone => {
+export const pickLatestSprint = (milestones: {data: Milestone[]}): Milestone => {
   const sortedMilestones = milestones.data
-    .filter((v) => compareVersions.validate(v.title))
+    .filter((v) => v.title.match(/Sprint \d+/))
     .sort((a, b) => {
-      return compareVersions(a.title, b.title);
-    });
+      const s1 = a.title.substr(6, a.title.length - 1);
+      const s2 = b.title.substr(6, b.title.length - 1);
+      if (s1 < s2) {
+        return -1;
+      } else if (s1 > s2) {
+        return 1;
+      } 
+      return 0;
+    }).reverse();
   return sortedMilestones[0];
 }
 
 async function run() {
   const {repo, payload, issue} = github.context;
-
-  if (payload.action !== 'opened') {
-    console.log('No issue or PR was opened, skipping');
-    return;
-  }
 
   // Do nothing if its not a pr or issue
   const isIssue: boolean = !!payload.issue;
@@ -65,6 +67,12 @@ async function run() {
 
   if (existsMilestone(payload as Payload)) {
     console.log('Milestone already exist, skipping.');
+    return;
+  }
+
+  if ((isPR && payload.action !== "opened")
+    || (isIssue && payload.action !== "assigned")) {
+    console.log('Not the right action, no work to be done.')
     return;
   }
 
@@ -83,7 +91,7 @@ async function run() {
     return;
   }
 
-  const smallestVersion = pickSmallestVersion(milestones);
+  const smallestVersion = pickLatestSprint(milestones);
 
   await client.issues.update({
     ...repo,

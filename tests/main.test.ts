@@ -1,4 +1,4 @@
-import { existsMilestone, pickSmallestVersion } from '../src/main'
+import { existsMilestone, pickLatestSprint } from '../src/main'
 
 describe('existsMilestone', () => {
   // https://jestjs.io/docs/en/api#1-testeachtablename-fn-timeout
@@ -19,26 +19,26 @@ const makeMilestone = (title: string, number: number): {title:string,number:numb
   }
 }
 
-describe('pickSmallestVersion', () => {
+describe('pickLatestSprint', () => {
   test.each([
-    [1, {
+    [2, {
       data: [
-        makeMilestone('v1.0.2', 4),
-        makeMilestone('v1.1.0', 3),
-        makeMilestone('v1.0.0', 1),
-        makeMilestone('v1.0.1', 2),
+        makeMilestone('Sprint 1', 4),
+        makeMilestone('Sprint 2', 3),
+        makeMilestone('Sprint 3', 1),
+        makeMilestone('Sprint 4', 2),
       ]
     }],
-    [1, {
+    [4, {
       data: [
-        makeMilestone('v1.0.0', 1),
+        makeMilestone('Sprint 1', 1),
         makeMilestone('Hello World', 3),
-        makeMilestone('v1.0.2', 4),
+        makeMilestone('Sprint 2', 4),
         makeMilestone('codehex', 2),
       ]
     }],
   ])("expected '%p', argument: %o", (want, arg) => {
-    const got = pickSmallestVersion(arg)
-    expect(got.number).toBe(want)
+    const got = pickLatestSprint(arg)
+    expect(got?.number).toBe(want)
   })
 })
