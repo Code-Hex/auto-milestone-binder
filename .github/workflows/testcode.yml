@@ -16,6 +16,6 @@ jobs:
         with:
           node-version: '14'
       - name: Install Dependencies
-        run: yarn install
+        run: yarn install --production
       - name: Run test
         run: yarn test
