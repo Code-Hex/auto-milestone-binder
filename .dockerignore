@@ -1,0 +1,9 @@
+.github
+tests
+src
+node_modules
+.prettierrc.json
+jest.config.js
+tsconfig*
+action.yml
+LICENSE
