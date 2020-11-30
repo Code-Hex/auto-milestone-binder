@@ -25,3 +25,4 @@ jobs:
           registry: docker.pkg.github.com
           repository: Code-Hex/auto-milestone-binder/auto-milestone-binder
           push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
