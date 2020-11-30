@@ -25,10 +25,16 @@ jobs:
         with:
           images: auto-milestone-binder/auto-milestone-binder
           tag-sha: true
+      - name: Login
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
         with:
-          registry: docker.pkg.github.com
+          context: .
           repository: Code-Hex/auto-milestone-binder/auto-milestone-binder
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
