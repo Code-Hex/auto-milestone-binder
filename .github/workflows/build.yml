@@ -40,4 +40,4 @@ jobs:
           context: .
           repository: Code-Hex/auto-milestone-binder/auto-milestone-binder
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ steps.docker_meta.outputs.tags }} # ghcr.io/owner/image-name:tag
+          tags: ghcr.io/${{ github.repository }}:test # ghcr.io/owner/image-name:tag
