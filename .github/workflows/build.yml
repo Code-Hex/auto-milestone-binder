@@ -1,0 +1,48 @@
+name: "Build Docker Image"
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+
+# https://github.com/docker/build-push-action/issues/127#issuecomment-695366990
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build code
+        run: yarn build
+      - name: Set vars
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: auto-milestone-binder/auto-milestone-binder
+          tag-sha: true
+      - name: Login
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          # tags: <org-name>/<repo-name>/<app-name>:<tag>
+          tags: |
+            ghcr.io/code-hex/auto-milestone-binder:${{ steps.vars.outputs.sha_short }}
+            ghcr.io/code-hex/auto-milestone-binder:latest
