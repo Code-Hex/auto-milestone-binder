@@ -19,6 +19,8 @@ jobs:
         run: yarn install
       - name: Build code
         run: yarn build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
