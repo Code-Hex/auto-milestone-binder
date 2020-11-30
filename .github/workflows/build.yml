@@ -22,7 +22,6 @@ jobs:
       - name: Push to GitHub Packages
         uses: docker/build-push-action@v2
         with:
-          username: ${{ github.actor }}
           registry: docker.pkg.github.com
           repository: Code-Hex/auto-milestone-binder/auto-milestone-binder
-          tag_with_ref: true
+          push: true
