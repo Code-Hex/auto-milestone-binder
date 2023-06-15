@@ -10,4 +10,4 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'ghcr.io/code-hex/auto-milestone-binder:latest'
+  image: 'docker://ghcr.io/code-hex/auto-milestone-binder:latest'
