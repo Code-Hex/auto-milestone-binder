@@ -1,7 +1,9 @@
 FROM node:slim
 
+WORKDIR /run
+
 COPY . .
 
 RUN yarn install --production
 
-ENTRYPOINT ["node", "/lib/main.js"]
+ENTRYPOINT ["node", "/run/lib/main.js"]
