@@ -21,7 +21,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: Code-Hex/auto-milestone-binder@v1.0.0
+    - uses: Code-Hex/auto-milestone-binder@v1.0.3
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
