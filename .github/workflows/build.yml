@@ -32,7 +32,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: auto-milestone-binder/auto-milestone-binder
+          images: ghcr.io/code-hex/auto-milestone-binder
           tags: |
             type=semver,pattern={{version}}
             type=sha,prefix=
