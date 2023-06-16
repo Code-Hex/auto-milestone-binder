@@ -1,6 +1,6 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
-import compareVersions from 'compare-versions';
+import {getOctokit, context} from '@actions/github';
+import {compareVersions, validate} from 'compare-versions';
 import {WebhookPayload} from '@actions/github/lib/interfaces';
 
 interface Payload extends WebhookPayload {
@@ -32,21 +32,23 @@ export const existsMilestone = (payload: Payload): boolean => {
 };
 
 interface Milestone {
-  title: string
-  number: number
+  title: string;
+  number: number;
 }
 
-export const pickSmallestVersion = (milestones: {data: Milestone[]}): Milestone => {
+export const pickSmallestVersion = (milestones: {
+  data: Milestone[];
+}): Milestone => {
   const sortedMilestones = milestones.data
-    .filter((v) => compareVersions.validate(v.title))
+    .filter(v => validate(v.title))
     .sort((a, b) => {
       return compareVersions(a.title, b.title);
     });
   return sortedMilestones[0];
-}
+};
 
 async function run() {
-  const {repo, payload, issue} = github.context;
+  const {repo, payload, issue} = context;
 
   if (payload.action !== 'opened') {
     console.log('No issue or PR was opened, skipping');
@@ -69,12 +71,12 @@ async function run() {
   }
 
   // Get client and context
-  const client: github.GitHub = new github.GitHub(
-    core.getInput('github-token', {required: true})
-  );
+  const token = core.getInput('github-token', {required: true});
+  const client = getOctokit(token).rest;
 
-  const milestones = await client.issues.listMilestonesForRepo({
-    ...repo,
+  const milestones = await client.issues.listMilestones({
+    owner: repo.owner,
+    repo: repo.repo,
     state: 'open'
   });
 
@@ -86,7 +88,8 @@ async function run() {
   const smallestVersion = pickSmallestVersion(milestones);
 
   await client.issues.update({
-    ...repo,
+    owner: repo.owner,
+    repo: repo.repo,
     issue_number: issue.number,
     milestone: smallestVersion.number
   });
