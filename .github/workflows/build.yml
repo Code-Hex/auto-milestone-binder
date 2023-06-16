@@ -23,17 +23,16 @@ jobs:
         run: yarn install
       - name: Build code
         run: yarn build
-      - name: Set vars
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
+        id: meta
+        uses: docker/metadata-action@v4
         with:
-          images: auto-milestone-binder/auto-milestone-binder
-          tag-sha: true
+          images: ghcr.io/code-hex/auto-milestone-binder
+          tags: |
+            type=semver,pattern={{version}}
+            type=sha,prefix=
       - name: Login
         uses: docker/login-action@v2
         with:
@@ -47,5 +46,4 @@ jobs:
           push: true
           # tags: <org-name>/<repo-name>/<app-name>:<tag>
           tags: |
-            ghcr.io/code-hex/auto-milestone-binder:${{ steps.vars.outputs.sha_short }}
-            ghcr.io/code-hex/auto-milestone-binder:latest
+            ${{ steps.meta.outputs.tags }}
